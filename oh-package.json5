@@ -1,13 +1,12 @@
 {
-  "name": "autoscreenshot",
-  "version": "1.0.0",
-  "description": "Please describe the basic information.",
-  "main": "",
-  "author": "",
   "license": "",
-  "dependencies": {
-  },
   "devDependencies": {
     "@ohos/hypium": "1.0.6"
-  }
+  },
+  "author": "",
+  "name": "autoscreenshot",
+  "description": "An efficient screenshot implementation for OpenHarmony.",
+  "main": "",
+  "version": "1.0.0",
+  "dependencies": {}
 }
