@@ -31,6 +31,17 @@
           }
         ]
       }
+    ],
+    "requestPermissions": [
+      {
+        "name": "ohos.permission.CAPTURE_SCREEN"
+      },
+      {
+        "name": "ohos.permission.PRIVACY_WINDOW"
+      },
+      {
+        "name": "ohos.permission.FILE_ACCESS_MANAGER"
+      }
     ]
   }
 }
