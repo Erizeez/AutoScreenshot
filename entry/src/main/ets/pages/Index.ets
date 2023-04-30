@@ -4,73 +4,99 @@ import picker from '@ohos.file.picker';
 import fs from '@ohos.file.fs';
 import common from '@ohos.app.ability.common';
 import fileAccess from '@ohos.file.fileAccess';
+import Logger from '../common/Logger'
+import window from '@ohos.window';
+import emitter from '@ohos.events.emitter';
+import { DESTROY_FLOAT_WINDOW } from '../common/Constants'
+
+const TAG: string = '[index]'
 
 @Entry
 @Component
 struct Index {
-
+  private context = getContext(this) as common.UIAbilityContext;
   build() {
-    Row() {
-      Column() {
-        Button() {
-          Text('截屏')
-            .fontSize(30)
-            .fontWeight(FontWeight.Bold)
-        }
-        .type(ButtonType.Capsule)
-        .margin({
-          top: 20
-        })
-        .backgroundColor('#0D9FFB')
-        .width('40%')
-        .height('5%')
-        .onClick(() => {
-          try {
-            screenshot.save((err, pixelMap) => {
-              if (err) {
-                console.log('Failed to save screenshot. Code: ' + JSON.stringify(err));
-                return;
-              }
-              const imagePackerApi = image.createImagePacker();
-              let packOpts = { format:"image/jpeg", quality:98 };
-
-              imagePackerApi.packing(pixelMap, packOpts).then( data => {
-                // data 为打包获取到的文件流，写入文件保存即可得到一张图片
-                const photoSaveOptions = new picker.PhotoSaveOptions(); // 创建文件管理器保存选项实例
-                photoSaveOptions.newFileNames = ["PhotoViewPicker01.jpg"]; // 保存文件名（可选）
-                const photoViewPicker = new picker.PhotoViewPicker();
-                photoViewPicker.save(photoSaveOptions)
-                  .then(async (photoSaveResult) => {
-                    let uri = photoSaveResult[0];
-                    // 获取到到图片或者视频文件的URI后进行文件读取等操作
-                    fs.open(uri, fs.OpenMode.READ_WRITE | fs.OpenMode.CREATE).then((file) => {
-                      console.info("file fd: " + file.fd);
-                      fs.write(file.fd, data)
-                      fs.close(file)
-                    }).catch((err) => {
-                      console.info("open file failed with error message: " + err.message + ", error code: " + err.code);
-                    });
-                  })
-                  .catch((err) => {
-                    console.error(`Invoke documentPicker.select failed, code is ${err.code}, message is ${err.message}`);
-                  })
-
-              }).catch(error => {
-                console.error('Failed to pack the image. And the error is: ' + error);
-              })
-
-              imagePackerApi.release()
-
-              console.log('Succeeded in saving screenshot. Pixel bytes number: ' + pixelMap.getPixelBytesNumber());
-              pixelMap.release(); // PixelMap使用完后及时释放内存
-            });
-          } catch (exception) {
-            console.error('Failed to save screenshot. Code: ' + JSON.stringify(exception));
-          };
-        })
+    Column() {
+      Row() {
+        Text($r('app.string.title'))
+          .fontColor(Color.White)
+          .fontSize(26)
       }
+      .height('8%')
       .width('100%')
+      .constraintSize({ minHeight: 70 })
+      .backgroundColor('#0D9FFB')
+      .padding({ left: 16, right: 16 })
+
+      Column() {
+        Text($r('app.string.recorder_desc'))
+          .fontColor(Color.Black)
+          .fontSize(20)
+          .margin(20)
+        Button($r('app.string.start_rec'))
+          .id('startRecord')
+          .onClick(this.start)
+      }
+      .layoutWeight(1)
+      .justifyContent(FlexAlign.Center)
     }
-    .height('100%')
+    .justifyContent(FlexAlign.Start)
+    .size({width: '100%', height: '100%'})
+  }
+
+  start = () => {
+    let windowClass
+    let config = {name:'floatWindows',windowType:window.WindowType.TYPE_FLOAT,ctx:this.context}
+    window.createWindow(config, (err,data) => {
+      if (err.code) {
+        Logger.error(TAG, 'Failed to create the floatWindow: ' + JSON.stringify(err))
+        return
+      }
+      Logger.info(TAG, 'Succeeded in creating the floatWindow. Data: ' + JSON.stringify(data))
+      windowClass = data
+      windowClass.moveTo(vp2px(50), vp2px(50), (err, data) => {
+        if (err.code) {
+          Logger.error(TAG, 'Failed to move the window. Cause: ' + JSON.stringify(data))
+          return
+        }
+        Logger.info(TAG, 'Succeeded in moving the window. Data:' + JSON.stringify(data))
+      })
+      windowClass.resetSize(vp2px(130), vp2px(30), (err, data) => {
+        if (err.code) {
+          Logger.error(TAG, 'Failed to resetSize. Cause: ' + JSON.stringify(data))
+          return
+        }
+        Logger.info(TAG, 'Succeeded in resetting size. Data:' + JSON.stringify(data))
+      })
+      windowClass.loadContent('pages/ScreenRecorder', (err, data) => {
+        if (err.code) {
+          Logger.error(TAG, 'Failed to load ScreenRecorder page. Cause: ' + JSON.stringify(data))
+          return
+        }
+        Logger.info(TAG, 'Succeeded in loading ScreenRecorder page. Data:' + JSON.stringify(data))
+
+        windowClass.show((err, data) => {
+          if (err.code) {
+            Logger.error(TAG, 'Failed to show window. Case: ' + JSON.stringify(data))
+            return
+          }
+          Logger.info(TAG, 'Succeeded in showing the window. Data:' + JSON.stringify(data))
+        })
+      })
+      windowClass.setBackgroundColor(Color.Transparent)
+    })
+    globalThis.floatWindow = windowClass
+    globalThis.mainWindow.hide()
+    emitter.once({ eventId: DESTROY_FLOAT_WINDOW }, () => {
+      Logger.info(TAG, 'emitter once')
+      windowClass.destroyWindow((err, data) => {
+        if(err.code) {
+          Logger.error(TAG, 'Failed to destroy the window. Cause:' + JSON.stringify(err))
+          return
+        }
+        Logger.info(TAG, 'Succeeded to destroy the window. Data:' + JSON.stringify(data))
+      })
+    })
+
   }
 }

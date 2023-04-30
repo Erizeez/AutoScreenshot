@@ -33,15 +33,14 @@
       }
     ],
     "requestPermissions": [
-      {
-        "name": "ohos.permission.CAPTURE_SCREEN"
-      },
-      {
-        "name": "ohos.permission.PRIVACY_WINDOW"
-      },
-      {
-        "name": "ohos.permission.FILE_ACCESS_MANAGER"
-      }
+      {"name": "ohos.permission.MEDIA_LOCATION"},
+      {"name": "ohos.permission.WRITE_MEDIA"},
+      {"name": "ohos.permission.READ_MEDIA"},
+      {"name": "ohos.permission.MICROPHONE"},
+      {"name": "ohos.permission.SYSTEM_FLOAT_WINDOW"},
+      {"name": "ohos.permission.CAPTURE_SCREEN"},
+      {"name": "ohos.permission.READ_IMAGEVIDEO"},
+      {"name": "ohos.permission.WRITE_IMAGEVIDEO"}
     ]
   }
 }
