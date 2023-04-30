@@ -4,13 +4,13 @@
       {
         "name": "default",
         "material": {
-          "certpath": "C:\\Users\\zhang\\.ohos\\config\\openharmony\\auto_ohos_default_AutoScreenshot_com.csdi.autoscreenshot.cer",
-          "storePassword": "0000001BFBEC99A85086BC441DA23C314CFB8D8108C3A7A0B1208A81B06570A07910B538A3298EC6E67D31",
+          "certpath": "/Users/ze/.ohos/config/openharmony/auto_ohos_default_AutoScreenshot_com.csdi.autoscreenshot.cer",
+          "storePassword": "0000001B33D7F1ABDA211E23C5108D922368DC7B3CF075AF58BC240B18A3FBBFB1BF67349920A1FEC7D5BF",
           "keyAlias": "debugKey",
-          "keyPassword": "0000001BDCF059A0CEBC1D51D497193E0FAEE405A4D0725A60D83D09D8EACD356AE38532E950060B8F0F12",
-          "profile": "C:\\Users\\zhang\\.ohos\\config\\openharmony\\auto_ohos_default_AutoScreenshot_com.csdi.autoscreenshot.p7b",
+          "keyPassword": "0000001B27F387687FEA3DD3169820DF1A0A1810AD3F50B095E71FA6683F6695D7F4986234AAF440BD3FFC",
+          "profile": "/Users/ze/.ohos/config/openharmony/auto_ohos_default_AutoScreenshot_com.csdi.autoscreenshot.p7b",
           "signAlg": "SHA256withECDSA",
-          "storeFile": "C:\\Users\\zhang\\.ohos\\config\\openharmony\\auto_ohos_default_AutoScreenshot_com.csdi.autoscreenshot.p12"
+          "storeFile": "/Users/ze/.ohos/config/openharmony/auto_ohos_default_AutoScreenshot_com.csdi.autoscreenshot.p12"
         }
       }
     ],

@@ -11,6 +11,21 @@
     {
       "name": "EntryAbility_label",
       "value": "自动截屏"
+    },
+    {
+      "name": "title",
+      "value": "Screen Recorder"
+    },
+    {
+      "name": "recorder_desc",
+      "value": "Screen Recorder Controller"
+    },    {
+      "name": "start_rec",
+      "value": "start"
+    },
+    {
+      "name": "stop_rec",
+      "value": "stop"
     }
   ]
 }
